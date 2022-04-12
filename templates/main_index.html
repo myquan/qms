@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="/static/tabulator-master/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/tabulator-master/dist/js/tabulator.min.js"></script>
+    <meta charset="UTF-8">
+    <link href="/static/plugins/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Quan MS</title>
+
+    <script language="javascript">
+
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("p").click(function(){
+        $(this).hide();
+      });
+    });
+
+    $(function () {
+        var url = window.location.href;
+        console.log(url);
+        $("ul li a").each(function () {
+            console.log(this.href);
+            if (url == (this.href)) {
+
+                $(this).closest("ul li a").addClass("active");
+            }
+            else {
+            console.log("do remove");
+                $(this).closest("ul li a").removeClass("active");
+                //$(this).closest("ul li").addClass("nav-link");
+            }
+        });
+    });
+</script>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img src="/static/images/logo-orange.png" width="100"/>
+        <span class="fs-4">&thinsp; Management System</span>
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/weeklyReport/" class="nav-link">任務管理</a></li>
+        <li class="nav-item"><a href="/polls/" class="nav-link " aria-current="page">費用申請</a></li>
+        <li class="nav-item"><a href="#" class="nav-link " aria-current="page">製造工單</a></li>
+        <li class="nav-item"><a href="/no-rush/" class="nav-link " aria-current="page">庫存管理</a></li>
+        <li class="nav-item"><a href="/settings/" class="nav-link">設定</a></li>
+        <li class="nav-item"><a href="/announce/" class="nav-link">公告</a></li>
+        <li class="nav-item"><a href="/faqs/" class="nav-link">FAQs</a></li>
+        <li class="nav-item"><a href="/accounts/logout/" class="nav-link">登出</a></li>
+      </ul>
+    </header>
+  </div>
+
+
+<div class="container">
+    {% if user.is_authenticated %}
+      <div class="row">
+          <div class="col" style="text-align:center">
+            <H1>重要公告</H1>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <h2>出貨通知</h2>
+              <ul>
+                  <li>觸控面板  5/18</li>
+                  <li>盟立V202  4/18</li>
+              </ul>
+
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <h2>管理部</h2>
+              <ul>
+                {% for filename in files %}
+                    <li>  <a href='/static/announce/{{ filename }}'>{{ filename }}</a> </li>
+                {% endfor %}
+              </ul>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <h2>旅遊活動</h2>
+              <ul>
+                  <li>內湖金面山  4/28</li>
+              </ul>
+
+          </div>
+      </div>
+    {% else %}
+           <p>尚未登入</p>
+    {% endif %}
+    <h2>追踪任務</h2>
+    <div id="taskTable"></div>
+</div>
+{{ taskData|json_script:'mydata' }}
+<script type="text/javascript">
+    function confirmDel(tid, tname){
+        if (confirm('Are you sure you want to delete ['+ tname +'] ?')) {
+          // Save it!
+          window.location.href ="/weeklyReport/deleteTask/"+ tid+"/";
+        } else {
+          // Do nothing!
+          return false;
+        }
+    }
+
+    var table = new Tabulator("#taskTable", {
+        height:280, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+        layout:"fitColumns", //fit columns to width of table (optional)
+        columns:[ //Define Table Columns
+            {title:"", field: "id", width:20},
+            {title:"任務名稱", field:"taskName", width:200},
+            {title:"擔當", field:"owner", width:100},
+            {title:"進度", field:"progress",  formatter:"progress",width:100},
+            {title:"說明", field:"description"},
+            {title:"客戶", field:"customer", width:80},
+            {title:"開始日期", field:"createTime", sorter:"date",width:100},
+
+        ],
+        rowClick:function(e, row){ //trigger an alert message when the row is clicked
+            alert("Row " + row.getData().id + " Clicked!!!!");
+        },
+    });
+    window.onload= (event) => {
+         setTimeout(setTable, 100);
+    };
+    //define some sample data
+    //custom formatter definition
+    var printIcon = function(cell, formatterParams, onRendered){ //plain text value
+        return "<i class='fa fa-print'></i>";
+    };
+    function setTable(){
+        var value = JSON.parse(document.getElementById('mydata').textContent);
+        console.log('setTable');
+         table.setData(value['data']);
+   };
+
+
+</script>
+
+
+</body>
+</html>

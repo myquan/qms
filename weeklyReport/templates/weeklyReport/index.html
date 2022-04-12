@@ -1,0 +1,27 @@
+{% extends "weeklyReport/base.html" %}
+{% block mainBody %}
+
+<div class='container'>
+    <div class="col-md-8">
+        <table class="table table-striped table-hover" style="width:100%">
+        <thead>
+            <th style="width: 10%">#</th>
+            <th style="width: 30%">更新時間</th>
+            <th>姓名</th>
+            <th>詳細</th>
+        </thead>
+        <tbody>
+        {% for areport in myreports %}
+        <tr>
+           <td><strong>{{ areport.week }} </strong></td>
+           <td>{{ areport.lastUpdateTime }}</td>
+            <td>{{ areport.reporter }} </td>
+            <td><a href="{% url 'weeklyReport:showReport' areport.pk %}" class="btn btn-outline-info btn-sm">內容</a> </td>
+        </tr>
+        {% endfor %}
+       </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock mainBody %}

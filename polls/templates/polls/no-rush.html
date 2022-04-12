@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>No Rush</title>
+</head>
+<body>
+<script>
+    // Using ES6 feature.
+    let redirect_Page = () => {
+        let tID = setTimeout(function () {
+            window.location.href = "/";
+            window.clearTimeout(tID);		// clear time out.
+        }, 1000);
+    }
+
+    // Using regular methods.
+    /* function redirect_Page () {
+        var tID = setTimeout(function () {
+            window.location.href = "https://www.encodedna.com/javascript/operators/default.htm";
+            window.clearTimeout(tID);		// clear time out.
+        }, 1000);
+    } */
+    redirect_Page();
+</script>
+<div class="bg-image"
+     style="background-image: url('/static/images/no-rush.png');
+            height: 100vh">
+<p>
+<h1>還沒好~</h1>
+</p></div>
+</body>
+</html>

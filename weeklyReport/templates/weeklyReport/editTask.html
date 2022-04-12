@@ -1,0 +1,26 @@
+{% extends "weeklyReport/base.html" %}
+{% block mainBody %}
+
+<div class="container">
+<form action="{% url 'weeklyReport:updateTask' %}" method="post">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><strong>Owner:</strong></td>
+            <td> {{ owner }}</td>
+        </tr>
+        {{ form.as_table }}
+        <tr>
+            <td>建立時間</td><td>{{ theTask.create_time }}</td>
+        </tr>
+        <tr>
+            <td>上次修改</td><td>{{ theTask.update_time }}</td>
+        </tr>
+        <tr>
+            <td>  {{ theTask.id }}  <input type="hidden" name="task_id" value = "{{ theTask.id }}"></td>
+            <td>    <input type="submit" value="更 新"></td>
+        </tr>
+    </table>
+</form>
+</div>
+{% endblock mainBody %}

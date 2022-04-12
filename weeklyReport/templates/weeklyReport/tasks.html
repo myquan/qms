@@ -1,0 +1,53 @@
+{% extends "weeklyReport/base.html" %}
+{% block mainBody %}
+
+<div class = 'container'>
+    <div id="taskTable"></div>
+
+</div>
+{{ taskData|json_script:'mydata' }}
+<script type="text/javascript">
+    function confirmDel(tid, tname){
+        if (confirm('Are you sure you want to delete ['+ tname +'] ?')) {
+          // Save it!
+          window.location.href ="/weeklyReport/deleteTask/"+ tid+"/";
+        } else {
+          // Do nothing!
+          return false;
+        }
+    }
+
+    var table = new Tabulator("#taskTable", {
+        height:360, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+        layout:"fitColumns", //fit columns to width of table (optional)
+        columns:[ //Define Table Columns
+            {title:"", field: "id", width:20},
+            {title:"任務名稱", field:"taskName", width:240},
+            {title:"擔當", field:"owner", width:100},
+            {title:"進度", field:"progress",  formatter:"progress",width:100},
+            {title:"說明", field:"description"},
+            {title:"客戶", field:"customer", width:80},
+            {title:"開始日期", field:"createTime", sorter:"date",width:100},
+        ],
+    });
+    window.onload= (event) => {
+        //console.log("onload");
+        setTimeout(setTable, 100);
+    };
+    //define some sample data
+    //custom formatter definition
+    var printIcon = function(cell, formatterParams, onRendered){ //plain text value
+        return "<i class='fa fa-print'></i>";
+    };
+    $(function() {
+      console.log("document ready");
+    });
+    function setTable(){
+        var value = JSON.parse(document.getElementById('mydata').textContent);
+        console.log('setTable');
+         table.setData(value['data']);
+   };
+</script>
+
+
+{% endblock mainBody %}

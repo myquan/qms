@@ -1,0 +1,13 @@
+{% extends "announce/base.html" %}
+
+{% block mainBody %}
+<div class = 'container'>
+    <ul>
+    {% for filename in files %}
+        <li>  <a href='/static/announce/{{ filename }}'>{{ filename }}</a> </li>
+
+    {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
