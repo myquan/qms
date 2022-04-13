@@ -5,7 +5,31 @@
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <p></p><input type="file" name="myfile"></p>
+
+    <table>
+      <tbody>
+      <tr>
+        <th><label for="announcementName">公告名稱:</label></th><td><input type="text" name="announcementName" required="True" id = "announcementName"></td>
+      </tr>
+      <tr>
+        <th><label for="category">類別:</label></th><td><select name="category" required="" id="category">
+
+          <option value="1">差勤</option>
+
+          <option value="2">福利</option>
+
+          <option value="3">費用申請</option>
+
+
+        </select></td>
+      </tr>
+      <tr>
+        <th><label for="id_description">說明:</label></th><td><textarea name="description" cols="40" rows="10" required=""></textarea></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p><input type="file" name="myfile"></p>
 
     <p><button type="submit">確定上傳</button></p>
   </form>

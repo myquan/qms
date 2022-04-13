@@ -117,7 +117,7 @@ def upload_file(request):
         uploaded_file_url = '/static/weeklyReports/report_' + username + '_' + str(year) + '_' + str(
             week_num) + extension
         context = {'username': username, 'year': year, 'week': week_num, 'uploaded_file_url': uploaded_file_url}
-        return render(request, 'weeklyReport/uploadAnnouncementFile.html', context)
+        return render(request, 'weeklyReport/uploadReportFile.html', context)
         # return HttpResponseRedirect('/success/url/')
     else:
         targetFileName = 'statics/weeklyReports/report_' + username + '_' + str(year) + '_' + str(week_num) + '.docx'
@@ -128,7 +128,7 @@ def upload_file(request):
             fileExist = False
         form = UploadFileForm()
         context = {'username': username, 'year': year, 'week': week_num, 'form': form, 'fileExist': fileExist}
-        return render(request, 'weeklyReport/uploadAnnouncementFile.html', context)
+        return render(request, 'weeklyReport/uploadReportFile.html', context)
 
 
 def show_tasks(request):
@@ -152,13 +152,11 @@ def show_tasks(request):
 def manage_tasks(request):
     allTasks = Task.objects.filter(owner=request.user.username).select_related()
     count = allTasks.count()
-    print(count)
     username = request.user.username
     my_date = datetime.date.today()  # if date is 01/01/2018
     year, week_num, day_of_week = my_date.isocalendar()
     tasks = []
     for task in allTasks:
-        print(task.customer.customer_name)
         taskjson = {'id': task.id, 'taskName': task.taskName, 'description': task.description,
                     'progress': task.progress, 'customer': task.customer.customer_name,
                     'createTime': task.createTime}

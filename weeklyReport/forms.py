@@ -38,5 +38,9 @@ class ContactForm(forms.Form):
 
 
 class UploadFileForm(forms.Form):
+
+    taskName = forms.CharField(label='任務名稱')
+    description = forms.CharField(label='說明', widget= forms.Textarea)
+    customer = forms.ModelChoiceField(label='相關客戶', queryset=Customer.objects.all())
     title = forms.CharField(max_length=50)
-    file = forms.FileField()
+    file = forms.FileField(label='周報')

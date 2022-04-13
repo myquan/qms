@@ -14,7 +14,7 @@ class WeeklyReportForm(forms.Form):
     #cc_myself = forms.BooleanField(required=False)
 
 
-class TaskForm(forms.Form):
+class AnnouncementForm(forms.Form):
     customers= (("1", "泉創"), \
                ("2","日月光"), \
                ("3","眾福"), ('4', '盛齊'))
