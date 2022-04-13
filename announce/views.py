@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-#from .forms import WeeklyReportForm, UploadFileForm, TaskForm
+from .forms import UploadFileForm
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 #from .models import Report, Task, Customer
 from django.utils import timezone
@@ -31,29 +31,26 @@ def upload_announce(request):
         my_date = datetime.date.today()  # if date is 01/01/2018
         year, week_num, day_of_week = my_date.isocalendar()
         username = request.user.username
-        reportFile = request.FILES['myfile']
+        uploadedFile = request.FILES['myfile']
         fs = FileSystemStorage()
-        name, extension = os.path.splitext(reportFile.name)
-        targetFileName = 'statics/announcements/'
+        #@name, extension = os.path.splitext(uploadedFile.name)
+        targetFileName = 'statics/announcements/'+ uploadedFile.name # path + fileName
         if os.path.exists(targetFileName):
-            fs.delete('statics/weeklyReports/report_' + username + '_' + str(year) + '_' + str(week_num) + extension)
-        filename = fs.save(targetFileName, reportFile)
+            fs.delete('statics/announcements/'+uploadedFile.name)
+        uploadedName = fs.save(targetFileName, uploadedFile)
         # form = UploadFileForm(request.POST, request.FILES)
-        uploaded_file_url = '/static/weeklyReports/report_' + username + '_' + str(year) + '_' + str(
-            week_num) + extension
-        context = {'username': username, 'year': year, 'week': week_num, 'uploaded_file_url': uploaded_file_url}
-        return render(request, 'weeklyReport/uploadReportFile.html', context)
-        # return HttpResponseRedirect('/success/url/')
+        uploaded_file_url = '/static/announcements/' + uploadedFile.name
+        context = {'username': username, 'file_url' : uploaded_file_url}
+        return render(request, 'announce/alreadyUploaded.html', context)
     else:
-        targetFileName = 'statics/weeklyReports/report_' + username + '_' + str(year) + '_' + str(week_num) + '.docx'
-        if os.path.exists(targetFileName):
-            fileExist = True
-        else:
-            print(targetFileName)
-            fileExist = False
         form = UploadFileForm()
-        context = {'username': username, 'year': year, 'week': week_num, 'form': form, 'fileExist': fileExist}
+        context = {'username': username, 'year': year, 'week': week_num, 'form': form}
         return render(request, 'announce/uploadAnnouncementFile.html', context)
+
+
+def manage_announce(request):
+    context = {'text_content': 'not ready, yet.'}
+    return render(request, 'announce/generalText.html', context)
 
 
 def listAnnouncementFiles(request):

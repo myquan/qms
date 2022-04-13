@@ -117,7 +117,7 @@ def upload_file(request):
         uploaded_file_url = '/static/weeklyReports/report_' + username + '_' + str(year) + '_' + str(
             week_num) + extension
         context = {'username': username, 'year': year, 'week': week_num, 'uploaded_file_url': uploaded_file_url}
-        return render(request, 'weeklyReport/uploadReportFile.html', context)
+        return render(request, 'weeklyReport/uploadAnnouncementFile.html', context)
         # return HttpResponseRedirect('/success/url/')
     else:
         targetFileName = 'statics/weeklyReports/report_' + username + '_' + str(year) + '_' + str(week_num) + '.docx'
@@ -128,7 +128,7 @@ def upload_file(request):
             fileExist = False
         form = UploadFileForm()
         context = {'username': username, 'year': year, 'week': week_num, 'form': form, 'fileExist': fileExist}
-        return render(request, 'weeklyReport/uploadReportFile.html', context)
+        return render(request, 'weeklyReport/uploadAnnouncementFile.html', context)
 
 
 def show_tasks(request):
