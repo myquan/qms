@@ -15,9 +15,6 @@ class WeeklyReportForm(forms.Form):
 
 
 class TaskForm(forms.Form):
-    customers= (("1", "泉創"), \
-               ("2","日月光"), \
-               ("3","眾福"), ('4', '盛齊'))
     taskName = forms.CharField(label='任務名稱')
     description = forms.CharField(label='說明', widget= forms.Textarea)
     customer = forms.ModelChoiceField(label='相關客戶', queryset=Customer.objects.all())

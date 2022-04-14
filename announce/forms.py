@@ -1,5 +1,5 @@
 from django import forms
-from weeklyReport.models import Customer
+from announce.models import Category_Announcement
 
 class NameForm(forms.Form):
     your_name = forms.CharField(label='Your name', max_length=100)
@@ -15,17 +15,11 @@ class WeeklyReportForm(forms.Form):
 
 
 class AnnouncementForm(forms.Form):
-    customers= (("1", "泉創"), \
-               ("2","日月光"), \
-               ("3","眾福"), ('4', '盛齊'))
-    taskName = forms.CharField(label='任務名稱')
+    announcementName = forms.CharField(label='公告名稱')
+    category = forms.ModelChoiceField(label='公告類別', queryset=Category_Announcement.objects.all())
     description = forms.CharField(label='說明', widget= forms.Textarea)
-    customer = forms.ModelChoiceField(label='相關客戶', queryset=Customer.objects.all())
-    progress = forms.IntegerField(label='進度(0~100%)', initial=1, label_suffix='%')
-
-
     def __init__(self, *args, **kwargs):
-        super(TaskForm, self).__init__(*args, **kwargs)
+        super(AnnouncementForm, self).__init__(*args, **kwargs)
         #customerset =
         #self.fields['customer'] = forms.ModelChoiceField(queryset = customerset)
 

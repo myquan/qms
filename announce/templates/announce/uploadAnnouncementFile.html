@@ -1,41 +1,22 @@
 {% extends "announce/base.html" %}
 {% load static %}
 {% block mainBody %}
-<div class='container' xmlns="http://www.w3.org/1999/html">
 
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    <table>
-      <tbody>
-      <tr>
-        <th><label for="announcementName">公告名稱:</label></th><td><input type="text" name="announcementName" required="True" id = "announcementName"></td>
-      </tr>
-      <tr>
-        <th><label for="category">類別:</label></th><td><select name="category" required="" id="category">
-
-          <option value="1">差勤</option>
-
-          <option value="2">福利</option>
-
-          <option value="3">費用申請</option>
-
-
-        </select></td>
-      </tr>
-      <tr>
-        <th><label for="id_description">說明:</label></th><td><textarea name="description" cols="40" rows="10" required=""></textarea></td>
-      </tr>
-      </tbody>
-    </table>
-
-    <p><input type="file" name="myfile"></p>
-
-    <p><button type="submit">確定上傳</button></p>
+<div class="container">
+  <form action="{% url 'announce:uploadAnnouncement' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+      {{ form.as_table }}
+        <tr>
+          <td></td>
+          <td>    <input type="file" name="myfile"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="送 出"></td>
+        </tr>
+     </table>
   </form>
-
-  {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-  {% endif %}
 </div>
+
 {% endblock %}
