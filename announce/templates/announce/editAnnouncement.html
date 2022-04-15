@@ -1,0 +1,22 @@
+{% extends "announce/base.html" %}
+{% load static %}
+{% block mainBody %}
+
+<div class="container">
+  <form action="{% url 'announce:updateAnnouncement' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+      {{ form.as_table }}
+        <tr>
+          <td><input type="hidden" name = "aid" value = {{ theAnnouncement.id }}></td>
+          <td>    <input type="file" name="myfile" />(原檔案: {{ file_name }})</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="送 出"></td>
+        </tr>
+     </table>
+  </form>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ app_name = 'announce'
 urlpatterns = [
     path('', views.listAnnouncementFiles, name='index'),
     path('upload_announce/', views.upload_announce, name='uploadAnnouncement'),
+    path('update_announce/', views.update_announce, name='updateAnnouncement'),
     path('manage_announce/', views.manage_announcements, name='manageAnnounce'),
     path('delete_announce/<int:announce_id>/', views.delete_announcements, name='deleteAnnounce'),
     path('edit_announce/<int:announce_id>/', views.edit_announcements, name='editAnnounce'),

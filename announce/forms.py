@@ -20,15 +20,6 @@ class AnnouncementForm(forms.Form):
     description = forms.CharField(label='說明', widget= forms.Textarea)
     def __init__(self, *args, **kwargs):
         super(AnnouncementForm, self).__init__(*args, **kwargs)
-        #customerset =
-        #self.fields['customer'] = forms.ModelChoiceField(queryset = customerset)
-
-
-class ContactForm(forms.Form):
-    subject = forms.CharField(max_length=100)
-    message = forms.CharField(widget=forms.Textarea)
-    sender = forms.EmailField()
-    cc_myself = forms.BooleanField(required=False)
 
 
 class UploadFileForm(forms.Form):

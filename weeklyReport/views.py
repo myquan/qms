@@ -91,7 +91,7 @@ def listReportFiles(request):
     # PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
     # print(path)
     file_list = os.listdir(path)
-    return render(request, 'weeklyReport/announcementFileList.html', {'files': file_list})
+    return render(request, 'weeklyReport/reportFileList.html', {'files': file_list})
 
 
 def viewDocReport(request):
@@ -102,6 +102,9 @@ def upload_file(request):
     my_date = datetime.date.today()  # if date is 01/01/2018
     year, week_num, day_of_week = my_date.isocalendar()
     username = request.user.username
+    print(day_of_week)
+    if day_of_week >1:
+        week_num = week_num + 1
     if request.method == 'POST' and request.FILES['myfile']:
         my_date = datetime.date.today()  # if date is 01/01/2018
         year, week_num, day_of_week = my_date.isocalendar()

@@ -62,6 +62,18 @@
 <div class="container">
     {% if user.is_authenticated %}
       <div class="row">
+          {% if clock_out %}
+            <div class="col" style="text-align:left">
+                {{username}}, 您不能由外部IP {{ip}} 打卡。
+            </div>
+          {% else %}
+            <div class="col" style="text-align:left">
+                {{username}}, 您打卡時間為: {{ clock_in.time }} @ {{ip}}
+            </div>
+          {% endif %}
+      </div>
+
+      <div class="row">
           <div class="col" style="text-align:center">
             <H1>重要公告</H1>
           </div>
@@ -80,8 +92,10 @@
           <div class="col">
             <h2>管理部公告</h2>
               <ul>
-                {% for filename in files %}
-                    <li>  <a href='/static/announcements/{{ filename }}'>{{ filename }}</a> </li>
+                  {{ announcementData|json_script:'announcementData' }}
+                {% for announcement in announcements %}
+
+                    <li>  <a href="/static/announcements/{{announcement.file_name}}">{{ announcement.announce_name }}</a> </li>
                 {% endfor %}
               </ul>
           </div>
