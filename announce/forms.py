@@ -20,6 +20,20 @@ class AnnouncementForm(forms.Form):
     description = forms.CharField(label='說明', widget= forms.Textarea)
     def __init__(self, *args, **kwargs):
         super(AnnouncementForm, self).__init__(*args, **kwargs)
+    def onlyWelfare(self):
+        #self['category'] = forms.ModelChoiceField(label='公告類別2', queryset=Category_Announcement.objects.filter(category_name='welfare_comittee'))
+        print("onlyWelfare")
+
+
+class AnnouncementForm4WelfareComittee(forms.Form):
+    announcementName = forms.CharField(label='公告名稱')
+    category = forms.ModelChoiceField(label='公告類別2', queryset=Category_Announcement.objects.filter(category_name='福利委員'))
+    description = forms.CharField(label='說明', widget= forms.Textarea)
+    def __init__(self, *args, **kwargs):
+        super(AnnouncementForm, self).__init__(*args, **kwargs)
+    def onlyWelfare(self):
+        #self['category'] = forms.ModelChoiceField(label='公告類別2', queryset=Category_Announcement.objects.filter(category_name='welfare_comittee'))
+        print("onlyWelfare")
 
 
 class UploadFileForm(forms.Form):

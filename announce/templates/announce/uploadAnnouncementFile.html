@@ -3,6 +3,7 @@
 {% block mainBody %}
 
 <div class="container">
+    <div style="text-align:center"><h3>{{ operation_name }}</h3></div>
   <form action="{% url 'announce:uploadAnnouncement' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <table>

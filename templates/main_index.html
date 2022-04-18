@@ -95,16 +95,18 @@
                   {{ announcementData|json_script:'announcementData' }}
                 {% for announcement in announcements %}
 
-                    <li>  <a href="/static/announcements/{{announcement.file_name}}">{{ announcement.announce_name }}</a> </li>
+                    <li>  <a href="/static/announcements/{{announcement.file_name}}">{{ announcement.announce_name }}</a> ({{announcement.update_time}}) </li>
                 {% endfor %}
               </ul>
           </div>
       </div>
       <div class="row">
           <div class="col">
-            <h2>旅遊活動</h2>
+            <h2>福利委員會公告</h2>
               <ul>
-                  <li>內湖金面山  4/28</li>
+                {% for item in welfareData %}
+                    <li>  <a href="/static/announcements/{{item.file_name}}">{{ item.announce_name }}</a> ({{item.update_time}}) </li>
+                {% endfor %}
               </ul>
 
           </div>

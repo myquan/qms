@@ -2,7 +2,12 @@
 {% block mainBody %}
 
 <div class = 'container'>
-    <p>擔當: {{ username }}</p>
+    <p>公告類別: <select name="category" onchange="refreshTable(this)">
+        <option value="0">全部</option>
+        {% for item in announcementCategories %}
+            <option value="{{ item.id }}">{{ item.category_name }}</option>
+        {% endfor %}
+    </select></p>
     <div id="announcementTable"></div>
 
 </div>
@@ -27,9 +32,10 @@
             {title:"檔名", field:"file_name", width:180},
             {title:"說明", field:"description", width:240},
             {title:"上傳者", field:"uploader", width:80},
+            {title:"類別", field:"category", width:80},
             {title:"開始日期", field:"createTime", sorter:"date",width:100},
             {title:"修改",formatter:"link", formatterParams:{label:"edit", url: function(cell){return "/announce/edit_announce/"+ cell.getRow().getData().id}}, align:"center", cellClick:function(e, cell){ console.log('edit');}},
-            {title:"刪除", field:"example", formatter:"buttonCross", cellClick:function(e, cell){ confirmDel(cell.getRow().getData().id, cell.getRow().getData().taskName);}},
+            {title:"刪除", field:"example", formatter:"buttonCross", cellClick:function(e, cell){ confirmDel(cell.getRow().getData().id, cell.getRow().getData().announcementName);}},
 
         ],
         rowClick:function(e, row){ //trigger an alert message when the row is clicked
@@ -38,7 +44,7 @@
     });
     window.onload= (event) => {
         setTimeout(setTable, 100);
-        };
+    };
     var printIcon = function(cell, formatterParams, onRendered){ //plain text value
         return "<i class='fa fa-print'></i>";
     };
@@ -46,7 +52,27 @@
         var value = JSON.parse(document.getElementById('mydata').textContent);
          table.setData(value['data']);
    };
+   function refreshTableData(jsonData){
+        console.log("in refresh");
+         table.setData(jsonData);
+   }
+   function refreshTable(selectedObj){
+        var category_id = selectedObj.value;
+        //console.log(category_id)
+        if(category_id != undefined){
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                //console.log(this.responseText);
+                var value = JSON.parse(this.responseText);
+                console.log(value['data']);
+                refreshTableData(value['data']);
+            }
+            // Send a request
+            xhttp.open("GET", "/announce/get_announce/"+category_id+"/");
+            xhttp.send();
+        }
 
+   }
 
 </script>
 

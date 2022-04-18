@@ -25,12 +25,22 @@ def Hello(request):
                         'createTime': task.create_time, 'owner': task.owner}
             tasks.append(taskjson)
         taskData = {'data': tasks}
-        path = os.path.join(settings.BASE_DIR, 'statics\\announcements')
-        file_list = os.listdir(path)
+        #path = os.path.join(settings.BASE_DIR, 'statics\\announcements')
+        #file_list = os.listdir(path)
+        #=== 管理部公告 ===
         announcements = []
-        for item in Announcement.objects.all():
-            item = {'file_name': item.file_name, 'announce_name': item.announce_name}
-            announcements.append(item)
+        for item in Announcement.objects.exclude(category=5):
+            localUpdateTime = timezone.localtime(item.update_time)
+            itemJson = {'file_name': item.file_name, 'announce_name': item.announce_name, 'update_time': localUpdateTime.strftime("%m/%d %H:%M")}
+            announcements.append(itemJson)
+        #=== 福委公告 ===
+        welfareData = []
+        for item in Announcement.objects.filter(category=5):
+            localUpdateTime = timezone.localtime(item.update_time)
+            itemJson = {'file_name': item.file_name, 'announce_name': item.announce_name, 'update_time': localUpdateTime.strftime("%m/%d %H:%M")}
+            welfareData.append(itemJson)
+
+        #=== 簽到作業 ===
         today = datetime.now()  # if date is 01/01/2018
         clock_in = today
         year, week_num, day_of_week = my_date.isocalendar()
@@ -38,7 +48,7 @@ def Hello(request):
         ip= get_client_ip(request)
         clock_out=True
         try:
-            clockRecord = ClockRecord.objects.get(account_name=username)
+            clockRecord = ClockRecord.objects.get(account_name=username).filter(create_time__gte=today)
             clock_in = clockRecord.create_time
         except:
             if ('192.168.1' in ip):
@@ -50,7 +60,7 @@ def Hello(request):
             clock_in = timezone.now()
         #zone_taipei = tz.gettz('Asia/Taipei')
         clock_in = timezone.localtime(clock_in)
-        context = {'username': username, 'year': year, 'week': week_num, 'taskData': taskData, 'announcements': announcements, 'clock_in': clock_in, 'ip':ip, 'clock_out':clock_out}
+        context = {'username': username, 'year': year, 'week': week_num, 'taskData': taskData, 'announcements': announcements, 'welfareData': welfareData, 'clock_in': clock_in, 'ip':ip, 'clock_out':clock_out}
         return render(request, 'main_index.html', context)
     else:
         return HttpResponseRedirect('/accounts/login/')
