@@ -1,4 +1,5 @@
 db.sqlite3
 
-statics/weeklyReports
-statics/announcements
+statics/weeklyReports/
+statics/announcements/
+
