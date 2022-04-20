@@ -255,7 +255,7 @@ def clock_in_list(request):
     listStr+='<tbody>'
     for item in todayList:
         clockin_time = timezone.localtime(item.create_time)
-        listStr+='<tr><td>'+item.account_name+'</td><td>' + clockin_time.strftime('%H:%M %d') + '</td></tr>'
+        listStr+='<tr><td>'+item.account_name+'</td><td>' + clockin_time.strftime('%H:%M') + '</td></tr>'
     listStr+='</tbody></table>'
     context={'text_content': listStr}
     return render(request, 'announce/generalText.html', context)
