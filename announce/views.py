@@ -33,7 +33,7 @@ def index(request):
 @login_required
 def upload_announce(request):
     operation_name='新增管理部公告'
-    my_date = datetime.date.today()  # if date is 01/01/2018
+    my_date = datetime.now()  # if date is 01/01/2018
     year, week_num, day_of_week = my_date.isocalendar()
     username = request.user.username
     if request.method == 'POST':
@@ -104,8 +104,6 @@ def upload_benefit(request): #上傳/新增福委公告
 
 @login_required
 def update_announce(request):
-    my_date = datetime.date.today()  # if date is 01/01/2018
-    year, week_num, day_of_week = my_date.isocalendar()
     username = request.user.username
     if request.method == 'POST':
         form = AnnouncementForm(request.POST)

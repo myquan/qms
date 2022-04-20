@@ -93,9 +93,12 @@
             <h2>管理部公告</h2>
               <ul>
                   {{ announcementData|json_script:'announcementData' }}
-                {% for announcement in announcements %}
-
-                    <li>  <a href="/static/announcements/{{announcement.file_name}}">{{ announcement.announce_name }}</a> ({{announcement.update_time}}) </li>
+                {% for item in announcements %}
+                  {% if item.file_name == 'N.A.' %}
+                    <li> {{ item.announce_name }} ({{item.update_time}}) </li>
+                  {% else %}
+                    <li>  <a href="/static/announcements/{{item.file_name}}">{{ item.announce_name }}</a> --({{item.update_time}}) </li>
+                  {% endif %}
                 {% endfor %}
               </ul>
           </div>
@@ -105,7 +108,11 @@
             <h2>福利委員會公告</h2>
               <ul>
                 {% for item in welfareData %}
-                    <li>  <a href="/static/announcements/{{item.file_name}}">{{ item.announce_name }}</a> ({{item.update_time}}) </li>
+                  {% if item.file_name == 'N.A.' %}
+                    <li> {{ item.announce_name }} {{item.update_time}}) </li>
+                  {% else %}
+                    <li>  <a href="/static/announcements/{{item.file_name}}">{{ item.announce_name }}</a> --({{item.update_time}}) </li>
+                  {% endif %}
                 {% endfor %}
               </ul>
 
