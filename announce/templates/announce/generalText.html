@@ -1,6 +1,6 @@
 {% extends "announce/base.html" %}
 {% block mainBody %}
 <div class='container'>
-  {{ text_content }}
+  {{ text_content|safe }}
 </div>
 {% endblock mainBody %}

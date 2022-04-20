@@ -44,13 +44,20 @@ def Hello(request):
         today = datetime.now()  # if date is 01/01/2018
         clock_in = today
         year, week_num, day_of_week = my_date.isocalendar()
-        today.replace(hour=7, minute=0)
+        today=today.replace(hour=7, minute=0)
+        atoday=timezone.make_aware(today)
         ip= get_client_ip(request)
         clock_out=True
+        #clockRecord = ClockRecord.objects.filter(account_name=username, create_time__gte=atoday)
+        print(atoday)
         try:
-            clockRecord = ClockRecord.objects.get(account_name=username).filter(create_time__gte=today)
-            clock_in = clockRecord.create_time
+            clockRecord = ClockRecord.objects.filter(account_name=username, create_time__gte=atoday)
+            print('print')
+            clock_in = clockRecord[0].create_time
+            #print(clock_in)
+            clock_out=False
         except:
+            print('except')
             if ('192.168.1' in ip):
                 clockRecord = ClockRecord(account_name=username)
                 clockRecord.save()

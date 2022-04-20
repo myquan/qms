@@ -5,7 +5,7 @@ from .forms import AnnouncementForm
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from .models import Category_Announcement, Announcement, ClockRecord
 from django.utils import timezone
-import datetime
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 import os
 from django.conf import settings
@@ -246,3 +246,17 @@ def get_announcements(request, category_id):
         announcements.append(announcementjson)
     announcementData = {'data': announcements}
     return JsonResponse(announcementData)
+
+
+def clock_in_list(request):
+    today=datetime.now().replace(hour=7, minute=0)
+    atoday= timezone.make_aware(today)
+    todayList= ClockRecord.objects.filter(create_time__gte=atoday)
+    listStr="<h3>本日簽到表</h3><br>"
+    listStr+='<table class="table table-striped" width="500"><thead><tr><th class="col-md-3">姓名</th><th>時間</th></thead>'
+    listStr+='<tbody>'
+    for item in todayList:
+        listStr+='<tr><td>'+item.account_name+'</td><td>' + item.create_time.strftime('%H:%M') + '</td></tr>'
+    listStr+='</tbody></table>'
+    context={'text_content': listStr}
+    return render(request, 'announce/generalText.html', context)
