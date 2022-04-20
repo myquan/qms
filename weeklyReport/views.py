@@ -141,7 +141,7 @@ def show_tasks(request):
     year, week_num, day_of_week = my_date.isocalendar()
     tasks = []
     for task in allTasks:
-        print(task.customer.customer_name)
+        #print(task.customer.customer_name)
         taskjson = {'id': task.id, 'taskName': task.taskName, 'description': task.description,
                     'progress': task.progress, 'customer': task.customer.customer_name,
                     'createTime': task.createTime, 'owner': task.owner}
